@@ -5,6 +5,7 @@ import { getDirAsTree } from '../modules/webcontainer';
 import { useDarkMode } from '../hooks/useDarkMode';
 import { debounce } from '../utils/debounce';
 import { getIcon } from '../icons';
+import DownloadAdd from './DownloadAdd';
 
 import Debug from '../utils/debug';
 
@@ -39,12 +40,16 @@ export function FileTree(props: FileTreeProps) {
   const treeEnv = useRef() as Ref<TreeEnvironmentRef<any, never>>
   const provider = useRef<TreeProvider<string>>(new TreeProvider({ root }));
   const [focusedItem, setFocusedItem] = useState("");
+  let initializer: string[] = [];
+  const [selectedItems, setSelectedItems] = useState(initializer);
   props.panelApi.onDidActivePanelChange(async (panelEvent: any) => {
     debug("panel changed", panelEvent);
     debug("focusedItem", focusedItem);
     const oItem: any = await provider.current.getTreeItem(panelEvent.id);
     if(oItem){
-      setFocusedItem(oItem.index);
+      const sItem:string = oItem.index
+      setFocusedItem(sItem);
+      setSelectedItems([sItem]);
     }
   });
   const refresh = async (updateMessage?: string) => {
@@ -76,7 +81,7 @@ export function FileTree(props: FileTreeProps) {
   return (
     <div style={{ overflow: 'scroll' }}>
       <div className={isDark ? 'rct-dark' : 'rct-default'}>
-        Rich was here
+        <DownloadAdd />
         <UncontrolledTreeEnvironment
           ref={treeEnv}
           canRename
@@ -90,7 +95,7 @@ export function FileTree(props: FileTreeProps) {
           onPrimaryAction={item => props.onTriggerItem(item.index.toString(), item.data)}
           onRenameItem={(item, name) => props.onRenameItem(item.index.toString(), name)}
           // onExpandItem={(item) => {debug('expand', item)}}
-          viewState={{filetree: {focusedItem:focusedItem}}}>
+          viewState={{filetree: {focusedItem:focusedItem, selectedItems:selectedItems}}}>
           <Tree treeId="filetree" treeLabel="Explorer" rootItem="root" />
         </UncontrolledTreeEnvironment>
       </div>
