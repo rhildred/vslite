@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@monaco-editor/react':
     specifier: ^4.5.1
@@ -25,9 +29,6 @@ dependencies:
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
-  xkcd-936:
-    specifier: ^1.0.4
-    version: 1.0.4
   xterm:
     specifier: ^5.1.0
     version: 5.1.0
@@ -1872,10 +1873,6 @@ packages:
         optional: true
     dev: false
     optional: true
-
-  /xkcd-936@1.0.4:
-    resolution: {integrity: sha512-DhC1hx5TwuYMNAQS1OQW8atP2hGlUvwk+gk1sQx9HMAa4N2yU8cKzFj2ho8LQfc4JMougU+Cusj4kxf66oCDOQ==}
-    dev: false
 
   /xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
