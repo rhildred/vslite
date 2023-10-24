@@ -27,3 +27,4 @@
 
 # Bugs
 - fix focus issue with switching tabs
+- fix clone url
