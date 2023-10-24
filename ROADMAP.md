@@ -24,3 +24,6 @@
 # Meta
 - Add deploy w/ CF Pages button
 - Finish this roadmap
+
+# Bugs
+- fix focus issue with switching tabs
