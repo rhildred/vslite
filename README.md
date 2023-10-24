@@ -4,8 +4,8 @@
 
 ### How do I use it?
 
-- https://vslite.dev (normal instance)
-- https://vslite.dev/~/gh/kat-tax/vslite.git (clones git repo & installs deps)
+- https://diy-pwa.dev (normal instance)
+- https://diy-pwa.dev/~/gh/rhildred/vslite.git (clones git repo)
 
 > *... then just run commands in the terminal like normal*
 
