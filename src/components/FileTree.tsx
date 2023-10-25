@@ -81,7 +81,7 @@ export function FileTree(props: FileTreeProps) {
   return (
     <div style={{ overflow: 'scroll' }}>
       <div className={isDark ? 'rct-dark' : 'rct-default'}>
-        <DownloadAdd />
+        <DownloadAdd {...props} />
         <UncontrolledTreeEnvironment
           ref={treeEnv}
           canRename
