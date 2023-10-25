@@ -78,7 +78,6 @@ class App extends Component {
         } catch {
             0;
         }
-        aGitIgnore.unshift('.git');
         (this as any).gitignore = aGitIgnore;
         (this as any).zip = new JSZip();
         await this.walk('.');
