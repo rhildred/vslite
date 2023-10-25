@@ -3,14 +3,12 @@ import {nodePolyfills} from 'vite-plugin-node-polyfills';
 import pluginRewriteAll from 'vite-plugin-rewrite-all';
 import reactSWC from '@vitejs/plugin-react-swc';
 import react from '@vitejs/plugin-react';
-import svgr from '@svgr/rollup';
 
 export default defineConfig({
   base: globalThis.process?.env.VITE_BASE || '/',
   plugins: [
     pluginRewriteAll(),
     nodePolyfills(),
-    svgr(),
     globalThis.process?.versions?.webcontainer
       ? react()
       : reactSWC(),
