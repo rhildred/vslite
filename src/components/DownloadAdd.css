@@ -1,0 +1,11 @@
+#downloadButton{
+    width:2.5em;
+    float: right;
+    border: none;
+    background-color: inherit;
+    padding: .4em .4em;
+}
+
+#downloadButton path{
+    fill:white;
+}
