@@ -6,6 +6,9 @@
     padding: .4em .4em;
 }
 
-#downloadButton path{
-    fill:white;
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+    #downloadButton path{
+        fill:white;
+    }
 }
