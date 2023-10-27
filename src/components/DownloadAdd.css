@@ -1,14 +1,17 @@
-#downloadButton{
-    width:2.5em;
+#buttons{
     float: right;
+}
+
+#buttons button{
+    width:3em;
     border: none;
     background-color: inherit;
-    padding: .4em .4em;
+    padding: .4em .8em;
 }
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
-    #downloadButton path{
+    #buttons path{
         fill:white;
     }
 }
