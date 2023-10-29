@@ -12,6 +12,27 @@ class App extends Component {
         this.downloadZip = this.downloadZip.bind(this);
         this.upload = this.upload.bind(this);
     }
+    loadFiles(evt:any){
+        const files = evt.target.files;
+        for(const file of files){
+            const oReader:FileReader|null = new FileReader();
+            oReader.onload = ()=>{
+                let arrayBuffer:Uint8Array = new Uint8Array(oReader.result as Uint8Array);
+                (this as any).fs.writeFile(file.name, arrayBuffer);
+            }
+            oReader.readAsArrayBuffer(file);
+        }
+    }
+    buildFileSelector():HTMLInputElement{
+        const fileSelector = document.createElement('input');
+        fileSelector.setAttribute('type', 'file');
+        fileSelector.setAttribute('multiple', 'multiple');
+        fileSelector.addEventListener("change", this.loadFiles.bind(this));
+        return fileSelector;
+    }
+    componentDidMount(){
+        (this as any).fileSelector = this.buildFileSelector();
+    }
     match(first: string, second: string): boolean {
         // If we reach at the end of both strings we are done
 
@@ -71,8 +92,9 @@ class App extends Component {
         }
     }
 
-    async upload(){
-        alert("upload");
+    async upload(e){
+        e.preventDefault();
+        (this as any).fileSelector.click();
     }
 
     async downloadZip() {
