@@ -92,7 +92,7 @@ class App extends Component {
         }
     }
 
-    async upload(e){
+    async upload(e:any){
         e.preventDefault();
         (this as any).fileSelector.click();
     }
