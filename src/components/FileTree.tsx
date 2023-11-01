@@ -6,6 +6,7 @@ import { useDarkMode } from '../hooks/useDarkMode';
 import { debounce } from '../utils/debounce';
 import { getIcon } from '../icons';
 import DownloadAdd from './DownloadAdd';
+import CommitPush from './CommitPush';
 
 import Debug from '../utils/debug';
 
@@ -81,6 +82,7 @@ export function FileTree(props: FileTreeProps) {
   return (
     <div style={{ overflow: 'scroll' }}>
       <div className={isDark ? 'rct-dark' : 'rct-default'}>
+        <CommitPush {...props} />
         <DownloadAdd {...props} />
         <UncontrolledTreeEnvironment
           ref={treeEnv}

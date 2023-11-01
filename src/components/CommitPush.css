@@ -1,0 +1,11 @@
+#CommitPush input,
+#CommitPush button{
+    display:block;
+    width:100%;
+    box-sizing:border-box;
+}
+
+#CommitPush input{
+    padding: .5em;
+    margin:0 0 .5em;
+}
