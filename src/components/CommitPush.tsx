@@ -1,20 +1,26 @@
-import { Component } from 'react';
 import './CommitPush.css';
+import { useState } from 'react';
 
-class App extends Component {
-
-    constructor(props: any) {
-        super(props);
-        (this as any).fs = props.fs;
-    }
-    render() {
-        return(
+export default (props: any) => {
+    const [sCommitMessage, setCommitMessage] = useState('');
+    let isDisabled: boolean = false;
+    let sDefaultCommitMessage: string = "0 changes";
+    const commitAndPush = async () => {
+        const sMessage = sCommitMessage || sDefaultCommitMessage;
+        const fs = props.fs;
+        let contents = '';
+        try { contents = await fs.readFile(".env", 'utf-8')} catch (e) {}
+        alert(`Commit and Push ${sMessage}, ${contents}`);
+    };
+    return (
         <div id="CommitPush">
-            <input placeholder="0 changes" />
-            <button disabled={true}>Push</button>
-        </div>
-        );
-    }
-}
+            <input
+                placeholder={sDefaultCommitMessage}
+                value={sCommitMessage} // ...force the input's value to match the state variable...
+                onChange={e => setCommitMessage(e.target.value)} // ... and update the state variable on any edits!
+            />
 
-export default App;
+            <button onClick={commitAndPush} disabled={isDisabled}>Push</button>
+        </div>
+    );
+}
