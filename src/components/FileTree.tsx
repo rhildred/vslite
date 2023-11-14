@@ -82,7 +82,6 @@ export function FileTree(props: FileTreeProps) {
   return (
     <div style={{ overflow: 'scroll' }}>
       <div className={isDark ? 'rct-dark' : 'rct-default'}>
-        <CommitPush {...props} />
         <DownloadAdd {...props} />
         <UncontrolledTreeEnvironment
           ref={treeEnv}
@@ -100,6 +99,7 @@ export function FileTree(props: FileTreeProps) {
           viewState={{filetree: {focusedItem:focusedItem, selectedItems:selectedItems}}}>
           <Tree treeId="filetree" treeLabel="Explorer" rootItem="root" />
         </UncontrolledTreeEnvironment>
+        <CommitPush {...props} />
       </div>
     </div>
   );

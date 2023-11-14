@@ -2,22 +2,21 @@ import { Component } from 'react';
 import path from 'path';
 import './DownloadAdd.css';
 import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
 
 class App extends Component {
 
-    constructor(props: any) {
+    constructor(props) {
         super(props);
-        (this as any).fs = props.fs;
+        this.fs = props.fs;
         this.downloadZip = this.downloadZip.bind(this);
         this.upload = this.upload.bind(this);
     }
-    loadFiles(evt:any){
+    loadFiles(evt){
         const files = evt.target.files;
         for(const file of files){
-            const oReader:FileReader|null = new FileReader();
+            const oReader = new FileReader();
             oReader.onload = async ()=>{
-                let arrayBuffer:Uint8Array = new Uint8Array(oReader.result as Uint8Array);
+                let arrayBuffer = new Uint8Array(oReader.result);
                 if(file.name.match(/\.zip$/)){
                     const oJsZip = new JSZip();
                     const oResult = await oJsZip.loadAsync(arrayBuffer);
@@ -27,22 +26,22 @@ class App extends Component {
                         const sPath = oItem.name;
                         if(oItem.dir){
                             try{
-                                await (this as any).fs.readdir(sPath);
+                                await this.fs.readdir(sPath);
                             }catch{
-                                await (this as any).fs.mkdir(sPath, {recursive: true});
+                                await this.fs.mkdir(sPath, {recursive: true});
                             }
                         }else{
-                            (this as any).fs.writeFile(sPath, await oItem.async('uint8array'));
+                            this.fs.writeFile(sPath, await oItem.async('uint8array'));
                         }
                     }            
                 }else{
-                    (this as any).fs.writeFile(file.name, arrayBuffer);
+                    this.fs.writeFile(file.name, arrayBuffer);
                 }
             }
             oReader.readAsArrayBuffer(file);
         }
     }
-    buildFileSelector():HTMLInputElement{
+    buildFileSelector(){
         const fileSelector = document.createElement('input');
         fileSelector.setAttribute('type', 'file');
         fileSelector.setAttribute('multiple', 'multiple');
@@ -50,9 +49,9 @@ class App extends Component {
         return fileSelector;
     }
     componentDidMount(){
-        (this as any).fileSelector = this.buildFileSelector();
+        this.fileSelector = this.buildFileSelector();
     }
-    match(first: string, second: string): boolean {
+    match(first, second){
         // If we reach at the end of both strings we are done
 
         if (first.length == 0 && second.length == 0) return true;
@@ -82,8 +81,8 @@ class App extends Component {
 
         return false;
     }
-    isInGitignore(second: string): boolean {
-        for (let first of (this as any).gitignore) {
+    isInGitignore(second) {
+        for (let first of this.gitignore) {
             first = first.replace(/\/$/, '');
             if (this.match(first, second)) {
                 return true;
@@ -92,8 +91,8 @@ class App extends Component {
         return false;
     }
 
-    async walk(sDir: string) {
-        const files = await (this as any).fs.readdir(sDir, {withFileTypes: true});
+    async walk(sDir) {
+        const files = await this.fs.readdir(sDir, {withFileTypes: true});
 
         for (const file of files) {
             if (this.isInGitignore(file.name)) continue;
@@ -106,30 +105,30 @@ class App extends Component {
                     filepath = `${sDir}/${file.name}`;
                 }
                 // insert file into zip here
-                (this as any).zip.file(filepath, await (this as any).fs.readFile(filepath));
+                this.zip.file(filepath, await this.fs.readFile(filepath));
             }
         }
     }
 
-    async upload(e:any){
+    async upload(e){
         e.preventDefault();
-        (this as any).fileSelector.click();
+        this.fileSelector.click();
     }
 
     async downloadZip() {
-        let aGitIgnore: string[] = [];
+        let aGitIgnore = [];
         try {
-            const aBuff = await (this as any).fs.readFile('.gitignore', 'utf-8');
+            const aBuff = await this.fs.readFile('.gitignore', 'utf-8');
             aGitIgnore = aBuff.split('\n');
         } catch {
             0;
         }
-        (this as any).gitignore = aGitIgnore;
-        (this as any).zip = new JSZip();
+        this.gitignore = aGitIgnore;
+        this.zip = new JSZip();
         await this.walk('.');
-        (this as any).zip.generateAsync({type:"blob"}).then(function (blob:any) { // 1) generate the zip file
+        this.zip.generateAsync({type:"blob"}).then(function (blob) { // 1) generate the zip file
             saveAs(blob, "projectDownload.zip");                          // 2) trigger the download
-        }, function (err:any) {
+        }, function (err) {
             console.log(err);
         });
         
@@ -155,4 +154,3 @@ class App extends Component {
 }
 
 export default App;
-

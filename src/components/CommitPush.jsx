@@ -6,11 +6,11 @@ import http from 'isomorphic-git/http/web'
 import Debug from '../utils/debug';
 const debug = Debug('CommitPush');
 
-export default (props: any) => {
+export default (props) => {
     const [sCommitMessage, setCommitMessage] = useState('');
     const [oEnv, setEnv] = useState({});
-    (oEnv as any).isDisabled = true;
-    (oEnv as any).sDefaultCommitMessage = "0 changes";
+    oEnv.isDisabled = true;
+    oEnv.sDefaultCommitMessage = "0 changes";
     const checkStatus = () =>{
         const oConfig = {
             http,
@@ -25,11 +25,11 @@ export default (props: any) => {
         })
     }
     const commitAndPush = async () => {
-        const sMessage = sCommitMessage || (oEnv as any).sDefaultCommitMessage;
+        const sMessage = sCommitMessage || oEnv.sDefaultCommitMessage;
         const fs = props.fs;
         try { 
             const sContents = await fs.readFile(".env", 'utf-8');
-            let oContents: any = {};
+            let oContents = {};
             Object.assign(oContents, oEnv, ini.parse(sContents));
             setEnv(oContents);
         } catch (e) {
@@ -41,15 +41,15 @@ export default (props: any) => {
     return (
         <div id="CommitPush">
             <input
-                placeholder={(oEnv as any).sDefaultCommitMessage}
+                placeholder={(oEnv).sDefaultCommitMessage}
                 value={sCommitMessage} // ...force the input's value to match the state variable...
                 onChange={e => setCommitMessage(e.target.value)} // ... and update the state variable on any edits!
             />
-            {(oEnv as any).USER_TOKEN && 
-            <div>Rich is here {(oEnv as any).USER_TOKEN}</div>
+            {oEnv.USER_TOKEN && 
+            <div>Rich is here {oEnv.USER_TOKEN}</div>
             }
 
-            <button onClick={commitAndPush} disabled={(oEnv as any).isDisabled}>Push</button>
+            <button onClick={commitAndPush} disabled={oEnv.isDisabled}>Push</button>
         </div>
     );
 }
