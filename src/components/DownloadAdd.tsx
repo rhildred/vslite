@@ -16,9 +16,28 @@ class App extends Component {
         const files = evt.target.files;
         for(const file of files){
             const oReader:FileReader|null = new FileReader();
-            oReader.onload = ()=>{
+            oReader.onload = async ()=>{
                 let arrayBuffer:Uint8Array = new Uint8Array(oReader.result as Uint8Array);
-                (this as any).fs.writeFile(file.name, arrayBuffer);
+                if(file.name.match(/\.zip$/)){
+                    const oJsZip = new JSZip();
+                    const oResult = await oJsZip.loadAsync(arrayBuffer);
+                    const oKeys = Object.keys(oResult.files);
+                    for(let key of oKeys){
+                        const oItem = oResult.files[key];
+                        const sPath = oItem.name;
+                        if(oItem.dir){
+                            try{
+                                await (this as any).fs.readdir(sPath);
+                            }catch{
+                                await (this as any).fs.mkdir(sPath, {recursive: true});
+                            }
+                        }else{
+                            (this as any).fs.writeFile(sPath, await oItem.async('uint8array'));
+                        }
+                    }            
+                }else{
+                    (this as any).fs.writeFile(file.name, arrayBuffer);
+                }
             }
             oReader.readAsArrayBuffer(file);
         }
