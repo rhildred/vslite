@@ -2,6 +2,7 @@ import { Component } from 'react';
 import path from 'path';
 import './DownloadAdd.css';
 import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
 class App extends Component {
 

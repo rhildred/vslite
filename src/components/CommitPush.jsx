@@ -1,8 +1,9 @@
 import './CommitPush.css';
 import { Component } from 'react';
 import ini from 'ini';
-import git from 'isomorphic-git'
-import http from 'isomorphic-git/http/web'
+import git from 'isomorphic-git';
+import http from 'isomorphic-git/http/web';
+import FsPromises from 'webcontainer-fs-promises';
 import Debug from '../utils/debug';
 const debug = Debug('CommitPush');
 
@@ -10,6 +11,7 @@ export default class CommitPush extends Component{
     constructor(props){
         super(props);
         this.fs = props.fs;
+        this.fs.promises = new FsPromises({fs:this.fs});
         this.state = {
             sCommitMessage: '',
             oEnv:{
@@ -26,10 +28,15 @@ export default class CommitPush extends Component{
         this.commitAndPush=this.commitAndPush.bind(this);
     }
     async checkStatus(){
-        const aStatus = await git.statusMatrix(this.oConfig);
-        for(const file of aStatus){
-            debug(file);
-        }    
+        try{
+            await this.fs.readdir(this.oConfig.gitdir);
+            const aStatus = await git.statusMatrix(this.oConfig);
+            for(const file of aStatus){
+                debug(file);
+            }    
+        }catch(e){
+            debug(e);
+        }
     }
     async commitAndPush(){
         const sMessage = this.state.sCommitMessage || this.state.oEnv.sDefaultCommitMessage;
@@ -44,7 +51,7 @@ export default class CommitPush extends Component{
         alert(`Commit and Push ${sMessage}`);
     };
     render(){
-        this.checkStatus();
+        //this.checkStatus();
         return (
             <div id="CommitPush">
                 <input

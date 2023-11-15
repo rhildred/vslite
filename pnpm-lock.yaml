@@ -79,6 +79,9 @@ devDependencies:
   express:
     specifier: ^4.18.2
     version: 4.18.2
+  file-saver:
+    specifier: ^2.0.5
+    version: 2.0.5
   ini:
     specifier: ^4.1.1
     version: 4.1.1
@@ -109,6 +112,9 @@ devDependencies:
   vitest:
     specifier: ^0.34.6
     version: 0.34.6
+  webcontainer-fs-promises:
+    specifier: ^0.0.7
+    version: 0.0.7
 
 packages:
 
@@ -1521,6 +1527,10 @@ packages:
       web-streams-polyfill: 3.2.1
     dev: true
 
+  /file-saver@2.0.5:
+    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==}
+    dev: true
+
   /finalhandler@1.2.0:
     resolution: {integrity: sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==}
     engines: {node: '>= 0.8'}
@@ -2872,6 +2882,10 @@ packages:
   /web-streams-polyfill@3.2.1:
     resolution: {integrity: sha512-e0MO3wdXWKrLbL0DgGnUV7WHVuw9OUvL4hjgnPkIeEvESk74gAITi5G606JtZPp39cd8HA9VQzCIvA49LpPN5Q==}
     engines: {node: '>= 8'}
+    dev: true
+
+  /webcontainer-fs-promises@0.0.7:
+    resolution: {integrity: sha512-6Jq0rZOCn8l4Zht5zM52FMacDZ3qNTLkU0Ibj6MkxxskvymziXBZ8PT9/zViS90J99YLpkE0lE9T3dCIGslPBw==}
     dev: true
 
   /which-typed-array@1.1.9:
