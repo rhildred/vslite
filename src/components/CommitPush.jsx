@@ -1,55 +1,64 @@
 import './CommitPush.css';
-import { useState } from 'react';
+import { Component } from 'react';
 import ini from 'ini';
 import git from 'isomorphic-git'
 import http from 'isomorphic-git/http/web'
 import Debug from '../utils/debug';
 const debug = Debug('CommitPush');
 
-export default (props) => {
-    const [sCommitMessage, setCommitMessage] = useState('');
-    const [oEnv, setEnv] = useState({});
-    oEnv.isDisabled = true;
-    oEnv.sDefaultCommitMessage = "0 changes";
-    const checkStatus = () =>{
-        const oConfig = {
+export default class CommitPush extends Component{
+    constructor(props){
+        super(props);
+        this.fs = props.fs;
+        this.state = {
+            sCommitMessage: '',
+            oEnv:{
+                isDisabled:true,
+                sDefaultCommitMessage: "0 changes"
+            }
+        }
+        this.oConfig = {
             http,
-            fs: props.fs,
+            fs: this.fs,
             gitdir: '.git',
             dir: '.'            
         }
-        git.statusMatrix(oConfig).then(aStatus=>{
-            for(const file of aStatus){
-                debug(file);
-            }    
-        })
+        this.commitAndPush=this.commitAndPush.bind(this);
     }
-    const commitAndPush = async () => {
-        const sMessage = sCommitMessage || oEnv.sDefaultCommitMessage;
-        const fs = props.fs;
+    async checkStatus(){
+        const aStatus = await git.statusMatrix(this.oConfig);
+        for(const file of aStatus){
+            debug(file);
+        }    
+    }
+    async commitAndPush(){
+        const sMessage = this.state.sCommitMessage || this.state.oEnv.sDefaultCommitMessage;
         try { 
-            const sContents = await fs.readFile(".env", 'utf-8');
+            const sContents = await this.fs.readFile(".env", 'utf-8');
             let oContents = {};
-            Object.assign(oContents, oEnv, ini.parse(sContents));
-            setEnv(oContents);
+            Object.assign(oContents, this.state.oEnv, ini.parse(sContents));
+            this.setState({oEnv:oContents});
         } catch (e) {
-            setEnv({});
+            0;
         }
         alert(`Commit and Push ${sMessage}`);
     };
-    checkStatus();
-    return (
-        <div id="CommitPush">
-            <input
-                placeholder={(oEnv).sDefaultCommitMessage}
-                value={sCommitMessage} // ...force the input's value to match the state variable...
-                onChange={e => setCommitMessage(e.target.value)} // ... and update the state variable on any edits!
-            />
-            {oEnv.USER_TOKEN && 
-            <div>Rich is here {oEnv.USER_TOKEN}</div>
-            }
-
-            <button onClick={commitAndPush} disabled={oEnv.isDisabled}>Push</button>
-        </div>
-    );
+    render(){
+        this.checkStatus();
+        return (
+            <div id="CommitPush">
+                <input
+                    placeholder={this.state.oEnv.sDefaultCommitMessage}
+                    value={this.state.sCommitMessage} // ...force the input's value to match the state variable...
+                    onChange={e => this.setState({sCommitMessage:e.target.value})} // ... and update the state variable on any edits!
+                />
+                {this.state.oEnv.USER_TOKEN && 
+                <div>Rich is here {this.state.oEnv.USER_TOKEN}</div>
+                }
+    
+                <button onClick={this.commitAndPush} disabled={this.state.oEnv.isDisabled}>Push</button>
+            </div>
+        );
+    
+    }
 }
