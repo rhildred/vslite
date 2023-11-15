@@ -26,6 +26,7 @@ export default class CommitPush extends Component{
             dir: '.'            
         }
         this.commitAndPush=this.commitAndPush.bind(this);
+        this.checkStatus = this.checkStatus.bind(this);
     }
     async checkStatus(){
         try{
@@ -51,7 +52,7 @@ export default class CommitPush extends Component{
         alert(`Commit and Push ${sMessage}`);
     };
     render(){
-        //this.checkStatus();
+//        this.checkStatus();
         return (
             <div id="CommitPush">
                 <input
