@@ -1,0 +1,8 @@
+.react-tabs{
+    height: 100vh;
+}
+
+.react-tabs__tab-panel{
+    height: 100%;
+    width: 100%
+}
