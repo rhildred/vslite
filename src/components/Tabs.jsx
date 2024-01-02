@@ -5,8 +5,8 @@ import './Tabs.css';
 export default () => (
   <Tabs forceRenderTabPanel={true}>
     <TabList>
-      <Tab>Title 1</Tab>
-      <Tab>Title 2</Tab>
+      <Tab>Preview</Tab>
+      <Tab>Editor</Tab>
     </TabList>
 
     <TabPanel>
