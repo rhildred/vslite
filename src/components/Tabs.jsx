@@ -1,19 +1,35 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
-import {Dock} from './Dock';
+import { Dock } from './Dock';
 import './Tabs.css';
-export default () => (
-  <Tabs forceRenderTabPanel={true}>
-    <TabList>
-      <Tab>Preview</Tab>
-      <Tab>Editor</Tab>
-    </TabList>
+import React, { useState, useEffect } from 'react';
 
-    <TabPanel>
-      <wp-playground></wp-playground>
-    </TabPanel>
-    <TabPanel>
-       <Dock />
-    </TabPanel>
-  </Tabs>
+
+const LazyTabPanel = props => {
+    const [initialized, setInitialized] = useState(false);
+    useEffect(() => {
+        if (props.selected && !initialized) {
+            setInitialized(true);
+        }
+    }, [props.selected, initialized]);
+
+    return <TabPanel forceRender={initialized} {...props} />;
+};
+LazyTabPanel.tabsRole = 'TabPanel';
+
+
+export default () => (
+    <Tabs>
+        <TabList>
+            <Tab>Preview</Tab>
+            <Tab>Editor</Tab>
+        </TabList>
+
+        <LazyTabPanel>
+            <wp-playground />
+        </LazyTabPanel>
+        <LazyTabPanel>
+            <Dock />
+        </LazyTabPanel>
+    </Tabs>
 );
