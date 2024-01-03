@@ -25,7 +25,8 @@ export function Dock() {
     <GridviewReact
       className={isDark ? 'dockview-theme-dark' : 'dockview-theme-light'}
       components={gridComponents}
-      proportionalLayout={false}
+      proportionalLayout={true}
+      disableAutoResizing={true}
       onReady={event => {
         grid.current = event.api;
         panels.openDock(event.api, dock);
