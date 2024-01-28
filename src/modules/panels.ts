@@ -1,13 +1,13 @@
-import type {DockviewApi, GridviewApi, PaneviewApi} from 'dockview';
-import type {FileSystemAPI} from '@webcontainer/api';
-import type {ShellInstance} from '../hooks/useShell';
-import type {CollabInstance} from '../hooks/useCollab';
+import type { DockviewApi, GridviewApi, PaneviewApi } from 'dockview';
+import type { FileSystemAPI } from '@webcontainer/api';
+import type { ShellInstance } from '../hooks/useShell';
+import type { CollabInstance } from '../hooks/useCollab';
 
 export function openDock(grid: GridviewApi, api: React.MutableRefObject<DockviewApi | undefined>) {
   grid.addPanel({
     id: 'dock',
     component: 'dock',
-    params: {api},
+    params: { api },
   });
 }
 
@@ -15,7 +15,7 @@ export function openPanes(grid: GridviewApi, api: React.MutableRefObject<Panevie
   grid.addPanel({
     id: 'panes',
     component: 'panes',
-    params: {api},
+    params: { api },
     maximumWidth: 800,
     size: 200,
     position: {
@@ -29,7 +29,7 @@ export function openTerminal(shell: ShellInstance, grid: GridviewApi, dock: Dock
   grid.addPanel({
     id: 'terminal',
     component: 'terminal',
-    params: {dock, shell},
+    params: { dock, shell },
     minimumHeight: 100,
     size: 200,
     position: {
@@ -44,7 +44,7 @@ export function openFileTree(fs: FileSystemAPI, grid: PaneviewApi, dock: Dockvie
     id: 'filetree',
     title: 'Explorer',
     component: 'filetree',
-    params: {dock, fs, sync},
+    params: { dock, fs, sync },
     isExpanded: true,
   });
   filetree.headerVisible = false;
@@ -56,7 +56,7 @@ export function openUntitledFile(fs: FileSystemAPI, api: DockviewApi, sync: Coll
     id: path,
     title: 'Untitled',
     component: 'editor',
-    params: {fs, path, sync},
+    params: { fs, path, sync },
   });
 }
 
@@ -68,32 +68,17 @@ export async function openStartFile(file: FileSystemFileHandle, fs: FileSystemAP
     id: path,
     title: file.name,
     component: 'editor',
-    params: {fs, path, sync},
+    params: { fs, path, sync },
   });
 }
 
 export function createPreviewOpener(api: DockviewApi) {
   return (serverUrl: string, serverPort: number) => {
-    const panel = api.getPanel(serverPort.toString());
-    const title = `Port: ${serverPort}`;
-    const url = `${serverUrl}?${Date.now()}`;
-    // Update the existing preview panel
-    if (panel) {
-      panel.api.updateParameters({url});
-      panel.api.setTitle(title);
-    // Create the preview panel
-    } else {
-      api.addPanel({
-        id: serverPort.toString(),
-        title: `Port: ${serverPort}`,
-        component: 'preview',
-        params: {url},
-        position: {
-          direction: 'right',
-        },
-      });
-    }
-  };
+    if (serverPort < 49152) {
+      (document.getElementById("previewIFrame") as any).src = serverUrl;
+    };
+
+  }
 }
 
 export function createFileOpener(api: DockviewApi, fs: FileSystemAPI, sync: CollabInstance) {
@@ -107,7 +92,7 @@ export function createFileOpener(api: DockviewApi, fs: FileSystemAPI, sync: Coll
         id: path,
         title: name,
         component: 'editor',
-        params: {fs, path, contents, sync},
+        params: { fs, path, contents, sync },
       });
     }
   };
@@ -126,7 +111,7 @@ export function createFileRenameHandler(api: DockviewApi, fs: FileSystemAPI) {
     // Update editor panel
     const panel = api.getPanel(path);
     if (panel) {
-      panel.api.updateParameters({path: newPath});
+      panel.api.updateParameters({ path: newPath });
       panel.api.setTitle(name);
     }
   };

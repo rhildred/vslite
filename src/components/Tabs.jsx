@@ -26,7 +26,8 @@ export default () => (
         </TabList>
 
         <LazyTabPanel>
-            <wp-playground />
+            <iframe id="previewIFrame" src="preview.html">
+            </iframe>
         </LazyTabPanel>
         <LazyTabPanel>
             <Dock />
