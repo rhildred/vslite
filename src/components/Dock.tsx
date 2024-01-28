@@ -64,7 +64,7 @@ const gridComponents: PanelCollection<IGridviewPanelProps> = {
     <Terminal
       shell={props.params.shell}
       panelApi={props.api}
-      onServerReady={panels.createPreviewOpener(props.params.dock)}
+      onServerReady={panels.createPreviewOpener()}
     />
   ),
 };

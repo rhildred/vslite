@@ -72,7 +72,7 @@ export async function openStartFile(file: FileSystemFileHandle, fs: FileSystemAP
   });
 }
 
-export function createPreviewOpener(api: DockviewApi) {
+export function createPreviewOpener() {
   return (serverUrl: string, serverPort: number) => {
     if (serverPort < 49152) {
       (document.getElementById("previewIFrame") as any).src = serverUrl;
