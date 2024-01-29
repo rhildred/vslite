@@ -32,11 +32,16 @@ class App extends Component {
                                 await this.fs.mkdir(sPath, {recursive: true});
                             }
                         }else{
-                            this.fs.writeFile(sPath, await oItem.async('uint8array'));
+                            try{
+                                await this.fs.writeFile(sPath, await oItem.async('uint8array'));
+                            }catch{
+                                await this.fs.mkdir(path.dirname(sPath), {recursive: true});
+                                await this.fs.writeFile(sPath, await oItem.async('uint8array'));
+                            }
                         }
                     }            
                 }else{
-                    this.fs.writeFile(file.name, arrayBuffer);
+                    await this.fs.writeFile(file.name, arrayBuffer);
                 }
             }
             oReader.readAsArrayBuffer(file);

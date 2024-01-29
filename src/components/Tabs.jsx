@@ -26,7 +26,7 @@ export default () => (
         </TabList>
 
         <LazyTabPanel>
-            <iframe id="previewIFrame" src="preview.html">
+            <iframe id="previewIFrame">
             </iframe>
         </LazyTabPanel>
         <LazyTabPanel>
