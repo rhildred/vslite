@@ -60,9 +60,6 @@ export function useStartup(
           break;
         }
       }
-    // Open blank file (if no URL)
-    } else if (location.pathname === '/') {
-      panels.openUntitledFile(fs, api, collab);
     }
     initLaunch.current = true;
   }, [monaco, launch, shell]);
