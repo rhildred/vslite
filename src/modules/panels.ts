@@ -74,23 +74,24 @@ export async function openStartFile(file: FileSystemFileHandle, fs: FileSystemAP
 
 export function createPreviewOpener(api: DockviewApi) {
   return (serverUrl: string, serverPort: number) => {
+    if (serverPort >= 49152) {
+      return;
+    }
     const panel = api.getPanel(serverPort.toString());
-    const title = `Port: ${serverPort}`;
+    const title = `Preview`;
     const url = `${serverUrl}?${Date.now()}`;
     // Update the existing preview panel
     if (panel) {
       panel.api.updateParameters({url});
       panel.api.setTitle(title);
+      panel.api.setActive();
     // Create the preview panel
     } else {
       api.addPanel({
         id: serverPort.toString(),
-        title: `Port: ${serverPort}`,
+        title: title,
         component: 'preview',
         params: {url},
-        position: {
-          direction: 'right',
-        },
       });
     }
   };
