@@ -19,7 +19,7 @@ pnpm build   # Build production bundle
 
 ### Powered by...
 
-- [G4C](https://gitlab.com/vblip/g4c) _(git support)_
+- [git-pwa](https://github.com/diy-pwa/git-pwa) _(git support)_
 - [Xterm.js](https://xtermjs.org) _(the terminal)_
 - [Monaco React](https://monaco-react.surenatoyan.com) _(the editor)_
 - [WebContainers](https://webcontainers.io) _(the shell)_
