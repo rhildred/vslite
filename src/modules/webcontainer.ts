@@ -58,5 +58,5 @@ export const jshRC: string = `
 export PNPM_HOME="/home/.pnpm"
 export PATH="/bin:/usr/bin:/usr/local/bin:/home/.pnpm"
 alias git='npx -y --package=git-pwa -- git'
-alias diy-pwa='npx -y --package=diy-pwa -- diy-pwa'
+alias wp-pwa='npx -y --package=wp-pwa -- wp-pwa'
 `;
