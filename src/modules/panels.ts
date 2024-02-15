@@ -84,7 +84,6 @@ export function createPreviewOpener(api: DockviewApi) {
     if (panel) {
       panel.api.updateParameters({url});
       panel.api.setTitle(title);
-      panel.api.setActive();
     // Create the preview panel
     } else {
       api.addPanel({
