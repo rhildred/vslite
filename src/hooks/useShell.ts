@@ -139,10 +139,7 @@ export function useShell(): ShellInstance {
     if (location.pathname.startsWith('/~/')) {
       const repo = location.pathname.replace('/~/gh', 'https://github.com');
       await input.write(`git clone ${repo} . && npm install && npm start\n`);
-    }else{
-      await input.write(`wp-pwa create && npm install\n`);
     }
-
     // Clear terminal and display
     terminal.clear();
     terminal.open(root);
